@@ -7,6 +7,8 @@ const { Header, Content } = Layout;
 const { TextArea } = Input;
 const { Title } = Typography;
 
+const API_BASE_URL = 'https://ocr-worker.disbaidu.com';
+
 const App: React.FC = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [essay, setEssay] = useState<string>('');
@@ -28,7 +30,7 @@ const App: React.FC = () => {
         formData.append('images', file.originFileObj as File);
       });
 
-      const response = await fetch('/api/upload', {
+      const response = await fetch(`${API_BASE_URL}/api/upload`, {
         method: 'POST',
         headers: {
           'X-API-Key': '12345abcde'
@@ -58,7 +60,7 @@ const App: React.FC = () => {
 
     setLoading(true);
     try {
-      const response = await fetch('/api/correct', {
+      const response = await fetch(`${API_BASE_URL}/api/correct`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

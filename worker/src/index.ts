@@ -6,7 +6,7 @@ interface Env {
   TENCENT_SECRET_KEY: string;
   GEMINI_API_KEY: string;
   API_KEY: string;
-  R2_BUCKET: string;
+  BUCKET: R2Bucket;
   R2_ACCESS_KEY: string;
   R2_SECRET_KEY: string;
   R2_CUSTOM_DOMAIN: string;
