@@ -12,6 +12,13 @@ interface Env {
   R2_CUSTOM_DOMAIN: string;
 }
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': 'https://aiarticle.disbaidu.com',
+  'Access-Control-Allow-Methods': 'GET,HEAD,POST,OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type,X-API-Key',
+  'Access-Control-Max-Age': '86400',
+};
+
 interface UploadResponse {
   success: boolean;
   text?: string;
@@ -94,14 +101,14 @@ async function handleUpload(request: Request, env: Env): Promise<Response> {
       success: true,
       text: combinedText
     }), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   } catch (error) {
     return new Response(JSON.stringify({
       success: false,
       message: error.message
     }), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   }
 }
@@ -143,14 +150,14 @@ async function handleCorrect(request: Request, env: Env): Promise<Response> {
       success: true,
       correctedEssay
     }), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   } catch (error) {
     return new Response(JSON.stringify({
       success: false,
       message: error.message
     }), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   }
 }

@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://your-worker-url.workers.dev',
+        target: 'https://ocr-worker.disbaidu.com',
         changeOrigin: true
       }
     }
