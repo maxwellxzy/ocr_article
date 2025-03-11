@@ -44,6 +44,13 @@ export default {
 
     const url = new URL(request.url);
 
+    // 处理OPTIONS预检请求
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        headers: corsHeaders
+      });
+    }
+
     // 处理上传图片请求
     if (url.pathname === '/api/upload' && request.method === 'POST') {
       return handleUpload(request, env);
@@ -69,14 +76,14 @@ async function handleUpload(request: Request, env: Env): Promise<Response> {
         success: false,
         message: '请上传至少一张图片'
       }), {
-        headers: { 'Content-Type': 'application/json' }
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
 
     // 上传图片到R2存储
     const imageUrls = await Promise.all(images.map(async (image) => {
       const key = `${Date.now()}-${Math.random().toString(36).substring(2)}`;
-      await env.R2_BUCKET.put(key, image);
+      await env.BUCKET.put(key, image);
       return `https://${env.R2_CUSTOM_DOMAIN}/${key}`;
     }));
 
@@ -116,20 +123,20 @@ async function handleUpload(request: Request, env: Env): Promise<Response> {
 // 处理作文批改
 async function handleCorrect(request: Request, env: Env): Promise<Response> {
   try {
-    const { essay, scoringStandard } = await request.json();
+    const { essay, scoringStandard, essayRequirement } = await request.json();
 
     if (!essay) {
       return new Response(JSON.stringify({
         success: false,
         message: '请提供作文内容'
       }), {
-        headers: { 'Content-Type': 'application/json' }
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
 
     // 初始化Gemini AI
-    const ai = new Ai(env.GEMINI_API_KEY);
-    const model = ai.getGenerativeModel({ model: 'gemini-pro' });
+    const ai = new GoogleGenerativeAI(env.GEMINI_API_KEY);
+    const model = ai.getGenerativeModel({ model: 'gemini-2.0-pro-latest' });
 
     // 构建提示词
     let prompt = `请帮我批改以下作文，给出详细的修改建议和评分：\n\n${essay}`;
@@ -144,7 +151,8 @@ async function handleCorrect(request: Request, env: Env): Promise<Response> {
 
     // 使用Gemini生成批改结果
     const result = await model.generateContent(prompt);
-    const correctedEssay = result.response.text();
+    const response = await result.response;
+    const correctedEssay = response.text();
 
     return new Response(JSON.stringify({
       success: true,

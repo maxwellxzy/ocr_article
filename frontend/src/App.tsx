@@ -30,6 +30,9 @@ const App: React.FC = () => {
 
       const response = await fetch('/api/upload', {
         method: 'POST',
+        headers: {
+          'X-API-Key': '12345abcde'
+        },
         body: formData
       });
 
@@ -58,7 +61,8 @@ const App: React.FC = () => {
       const response = await fetch('/api/correct', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-API-Key': '12345abcde'
         },
         body: JSON.stringify({
           essay,
