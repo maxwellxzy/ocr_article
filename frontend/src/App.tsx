@@ -8,6 +8,7 @@ const { TextArea } = Input;
 const { Title } = Typography;
 
 const API_BASE_URL = 'https://ocr-worker.disbaidu.com';
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const App: React.FC = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -33,7 +34,7 @@ const App: React.FC = () => {
       const response = await fetch(`${API_BASE_URL}/api/upload`, {
         method: 'POST',
         headers: {
-          'X-API-Key': '12345abcde'
+          'X-API-Key': API_KEY
         },
         body: formData
       });
@@ -64,7 +65,7 @@ const App: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-Key': '12345abcde'
+          'X-API-Key': API_KEY
         },
         body: JSON.stringify({
           essay,
