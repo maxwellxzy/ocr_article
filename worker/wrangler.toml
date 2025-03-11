@@ -3,11 +3,8 @@ main = "src/index.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
+# 环境变量配置请在Cloudflare Workers的设置页面中添加
 [vars]
-GEMINI_API_KEY = "AIzaSyBn6R7JWK8z58cETrHoXIbdJQ6x7QUR14o"
-TENCENT_SECRET_ID = "AKIDwuhKk2EEF9pJdmjgV9ZozzGPL8vgXR9e"
-TENCENT_SECRET_KEY = "Kf0Md3Uix2yiMrMk03ucAVdfVAev6DDI"
-API_KEY = "12345abcde"
 
 [[r2_buckets]]
 binding = 'BUCKET'
