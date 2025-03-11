@@ -4,10 +4,7 @@ compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-GEMINI_API_KEY = ""
-TENCENT_SECRET_ID = ""
-TENCENT_SECRET_KEY = ""
-API_KEY = ""
+
 
 [[r2_buckets]]
 binding = 'BUCKET'
