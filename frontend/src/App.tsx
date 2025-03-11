@@ -41,7 +41,7 @@ const App: React.FC = () => {
       const data = await response.json();
       if (data.success) {
         setEssay(data.text);
-        message.success('OCR识别成功!');
+        message.success('OCR识别成功');
       } else {
         throw new Error(data.message);
       }
